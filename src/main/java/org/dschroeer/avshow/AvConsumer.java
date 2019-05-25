@@ -48,15 +48,17 @@ public class AvConsumer implements Runnable {
 
     while (true) {
       try {
-        while (cache.isEmpty()) {
+        if (cache.isEmpty()) {
           synchronized (this) {
             wait();
           }
         }
-        AvTask task = cache.poll();
         if (Thread.currentThread().isInterrupted()) {
-          L.info("interrupt");
           return;
+        }
+        AvTask task = cache.poll();
+        synchronized (producer) {
+          producer.notify();
         }
         L.info("task: " + task);
         gui.setPicture(task.getPicPath());
@@ -66,9 +68,6 @@ public class AvConsumer implements Runnable {
         }
         String[] cmd = { "mplayer", "-quiet", "-novideo", task.getAudioPath() };
         currentAudioProcess = Runtime.getRuntime().exec(cmd);
-        synchronized (producer) {
-          producer.notify();
-        }
         int exitCode = currentAudioProcess.waitFor();
         L.info("exit code: " + exitCode);
       } catch (IOException | InterruptedException | IllegalArgumentException e) {
