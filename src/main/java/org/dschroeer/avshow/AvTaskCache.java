@@ -30,8 +30,8 @@ public class AvTaskCache {
   static private final Logger L = Logger.getLogger(AvTaskCache.class.getName());
 
   static class AvTask {
-    private String picturePath;
-    private String audioPath;
+    private final String picturePath;
+    private final String audioPath;
 
     public AvTask(String picPath, String audioPath) {
       super();
