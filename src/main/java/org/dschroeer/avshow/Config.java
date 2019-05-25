@@ -27,12 +27,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Config {
-  static public final int DISPLAY_NUMBER = Integer.getInteger("org.dschroeer.display_number", 0);
-  static public final int DISPLAY_WIDTH = Integer.getInteger("org.dschroeer.display_width", -1);
-  static public final int DISPLAY_HEIGHT = Integer.getInteger("org.dschroeer.display_height", -1);
-  static public final int DISPLAY_POSITION_X = Integer.getInteger("org.dschroeer.display_position_x", 0);
-  static public final int DISPLAY_POSITION_Y = Integer.getInteger("org.dschroeer.display_position_y", 0);
-  static public final int CACHE_SIZE = Integer.getInteger("org.dschroeer.cache_size", 5);
+  static public final int DISPLAY_NUMBER = Integer.getInteger("org.dschroeer.display_number", 0).intValue();
+  static public final int DISPLAY_WIDTH = Integer.getInteger("org.dschroeer.display_width", -1).intValue();
+  static public final int DISPLAY_HEIGHT = Integer.getInteger("org.dschroeer.display_height", -1).intValue();
+  static public final int DISPLAY_POSITION_X = Integer.getInteger("org.dschroeer.display_position_x", 0).intValue();
+  static public final int DISPLAY_POSITION_Y = Integer.getInteger("org.dschroeer.display_position_y", 0).intValue();
+  static public final int CACHE_SIZE = Integer.getInteger("org.dschroeer.cache_size", 5).intValue();
   static public final String AUDIO_TYPES = System.getProperty("org.dschroeer.audio_types", "\\( -iname *.flac -o -iname *.mp3 -o -iname *.ogg -o -iname *.ape \\)");
   static public final String AUDIO_FOLDER = System.getProperty("org.dschroeer.audio_folder", "/tmp");
   static public final String PICTURE_FOLDER = System.getProperty("org.dschroeer.picture_folder", "/tmp");
