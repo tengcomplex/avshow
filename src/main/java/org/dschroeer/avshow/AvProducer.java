@@ -148,6 +148,7 @@ public class AvProducer implements Runnable {
     String cleanFilename = clean(FilenameUtils.removeExtension(file.getName()));
     String pattern = Stream
       .concat(Arrays.stream(cleanFilename.split("_")), metaValues.stream())
+      .distinct()
       .filter(isEligibleForSearch())
       .collect(Collectors.joining("|"));
     L.info(file.getName() + ", pattern: " + pattern);
