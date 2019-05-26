@@ -185,11 +185,11 @@ public class Gui {
     L.info("Picture " + picturePath + " loading...");
     BufferedImage image = ImageIO.read(new File(picturePath));
     L.info("Picture " + picturePath + " loaded");
-    Dimension orig = new Dimension(image.getWidth(), image.getHeight());
-    Dimension target = new Dimension(frame.getWidth(), frame.getHeight());
-    Dimension newDim = getScaledDimension(orig, target);
-    ImageIcon imageIcon = new ImageIcon(resizeToBig(image, (int) newDim.getWidth(), (int) newDim.getHeight()));
-    L.info("Picture " + picturePath + " scaled");
+    Dimension origDim = new Dimension(image.getWidth(), image.getHeight());
+    Dimension targetDim = new Dimension(frame.getWidth(), frame.getHeight());
+    Dimension newDim = getScaledDimension(origDim, targetDim);
+    ImageIcon imageIcon = new ImageIcon(resize(image, newDim.width, newDim.height));
+    L.info("Picture " + picturePath + " scaled from " + origDim + " to " + newDim);
     SwingUtilities.invokeLater(new Runnable() {
       @Override
       public void run() {
@@ -198,20 +198,15 @@ public class Gui {
     });
   }
 
-  private Image resizeToBig(Image originalImage, int biggerWidth, int biggerHeight) {
-    int type = BufferedImage.TYPE_INT_ARGB;
-
-    BufferedImage resizedImage = new BufferedImage(biggerWidth, biggerHeight, type);
+  private Image resize(Image originalImage, int newWidth, int newHeight) {
+    BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
     Graphics2D g = resizedImage.createGraphics();
-
     g.setComposite(AlphaComposite.Src);
     g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
     g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
     g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-    g.drawImage(originalImage, 0, 0, biggerWidth, biggerHeight, null);
+    g.drawImage(originalImage, 0, 0, newWidth, newHeight, null);
     g.dispose();
-
     return resizedImage;
   }
 
