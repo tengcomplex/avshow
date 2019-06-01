@@ -1,16 +1,16 @@
 # Synopsis
-Avshow is a CLI application for an infinite slideshow of pictures accompanied by audio.
+Avshow is a simple application for an infinite slideshow of pictures accompanied by audio.
 The basic idea is to show a random picture for the time a matching audio file is played.
 
 A pool of pictures and audio files must be accessible.
 
 The algorithm works as following:
 * 1) Pick a random picture
-* 2) Extract tokens from
+* 2) Extract text tokens from
     * a) filename
     * b) meta data
-* 3) Grep audio file with the pattern of extracted tokens
-    * If there are no matches, take a random audio file from the whole pool
+* 3) Grep an audio file with the pattern of extracted picture tokens
+    * If there are no matches, take a random audio file from audio folder
     * If there are multiple matches take a random audio file from the matches
 
 Avshow is written in Java and is due to its dependencies designed to run on linux.
@@ -67,7 +67,7 @@ java \
 -Dorg.dschroeer.audio_folder=/tmp/audio \
 -Dorg.dschroeer.picture_folder=/tmp/pics \
 -Dcom.drinschinz.search_exclude_words="the,and,from,wallpaper,wallpapers,theme,large,picture" \
--jar avshow-1.0.0.jar
+-jar avshow-$version.jar
 ```
 
 ## Keyboard commands
