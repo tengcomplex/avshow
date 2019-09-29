@@ -66,7 +66,7 @@ java \
 -Dorg.dschroeer.display_position_y=20 \
 -Dorg.dschroeer.audio_folder=/tmp/audio \
 -Dorg.dschroeer.picture_folder=/tmp/pics \
--Dcom.drinschinz.search_exclude_words="the,and,from,wallpaper,wallpapers,theme,large,picture" \
+-Dcom.dschroeer.search_exclude_words="the,and,from,wallpaper,wallpapers,theme,large,picture" \
 -jar avshow-$version.jar
 ```
 
