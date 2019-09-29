@@ -49,11 +49,9 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 
 public class AvProducer implements Runnable {
-
   private static final Logger L = Logger.getLogger(AvProducer.class.getName());
 
   private static final String SEARCH_EXCLUDE_PATTERN_PICTURE_DIMENSION = "\\d{3,4}x\\d{3,4}";
-
   public static final String DEFAULT_SEARCH_EXCLUDE_WORDS = ""
     + "the,and,from,wallpaper,wallpapers,theme,large,picture,img,dsc,"
     + "der,die,das,des,und,oder,fuer,für,ist,auf,vor,bei,ihr,ihre,sein,seine";

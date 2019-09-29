@@ -29,17 +29,17 @@ import java.util.logging.Logger;
 import org.dschroeer.avshow.AvTaskCache.AvTask;
 
 public class AvConsumer implements Runnable {
+  private static final Logger L = Logger.getLogger(AvConsumer.class.getName());
 
-  static private final Logger L = Logger.getLogger(AvConsumer.class.getName());
-
-  private AvTaskCache cache;
-  private Gui gui;
-  private Process currentAudioProcess;
-  private AvProducer producer;
+  private final AvTaskCache cache;
+  private final Gui gui;
+  private final AvProducer producer;
   /**
    * Elements of {@link Config#AUDIO_COMMAND} plus one, where we put the audio path.
    */
   private final String[] audioCmd = Config.AUDIO_COMMAND.toArray(new String[Config.AUDIO_COMMAND.size() + 1]);
+
+  private Process currentAudioProcess;
 
   public AvConsumer(AvTaskCache cache, Gui gui, AvProducer producer) {
     this.cache = cache;
