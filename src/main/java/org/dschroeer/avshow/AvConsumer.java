@@ -36,6 +36,10 @@ public class AvConsumer implements Runnable {
   private Gui gui;
   private Process currentAudioProcess;
   private AvProducer producer;
+  /**
+   * Elements of {@link Config#AUDIO_COMMAND} plus one, where we put the audio path.
+   */
+  private final String[] audioCmd = Config.AUDIO_COMMAND.toArray(new String[Config.AUDIO_COMMAND.size() + 1]);
 
   public AvConsumer(AvTaskCache cache, Gui gui, AvProducer producer) {
     this.cache = cache;
@@ -66,8 +70,8 @@ public class AvConsumer implements Runnable {
         if (task.getAudioPath() == null) {
           return;
         }
-        String[] cmd = { "mplayer", "-quiet", "-novideo", task.getAudioPath() };
-        currentAudioProcess = Runtime.getRuntime().exec(cmd);
+        audioCmd[audioCmd.length - 1] = task.getAudioPath();
+        currentAudioProcess = Runtime.getRuntime().exec(audioCmd);
         int exitCode = currentAudioProcess.waitFor();
         L.info("exit code: " + exitCode);
       } catch (IOException | InterruptedException | IllegalArgumentException e) {

@@ -22,8 +22,10 @@
 
 package org.dschroeer.avshow;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Config {
@@ -37,4 +39,5 @@ public class Config {
   static public final String AUDIO_FOLDER = System.getProperty("org.dschroeer.audio_folder", "/tmp");
   static public final String PICTURE_FOLDER = System.getProperty("org.dschroeer.picture_folder", "/tmp");
   static public final Set<String> SEARCH_EXCLUDE_WORDS = new HashSet<>(Arrays.asList(System.getProperty("org.dschroeer.search_exclude_words", AvProducer.DEFAULT_SEARCH_EXCLUDE_WORDS).split(",")));
+  static public final List<String> AUDIO_COMMAND = new ArrayList<>(Arrays.asList(System.getProperty("org.dschroeer.audio_command", "cvlc,--play-and-exit").split(",")));
 }

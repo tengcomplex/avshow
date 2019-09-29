@@ -21,7 +21,6 @@ GPL v3 Copyright (C) 2019  David Schröer <tengcomplexATgmail.com>
 # Dependencies
 Must be installed:
 * Java JRE 8 or higher
-* [mplayer](http://www.mplayerhq.hu)
 * [grep](https://www.gnu.org/software/grep/)
 * [shuf](https://www.gnu.org/software/coreutils/)
 * [ls](https://www.gnu.org/software/coreutils/)
@@ -54,6 +53,7 @@ org.dschroeer.picture_folder           path of picture files, default /tmp
 org.dschroeer.search_exclude_words     comma separated list of words,
                                        default the,and,from,wallpaper,wallpapers,theme,large,picture,img,dsc,
                                        der,die,das,des,und,oder,fuer,für,ist,auf,vor,bei,ihr,ihre,sein,seine
+org.dschroeer.audio_command            comma separated audio command tokens, default cvlc,--play-and-exit
 ```
 
 ## Example
@@ -67,6 +67,7 @@ java \
 -Dorg.dschroeer.audio_folder=/tmp/audio \
 -Dorg.dschroeer.picture_folder=/tmp/pics \
 -Dcom.dschroeer.search_exclude_words="the,and,from,wallpaper,wallpapers,theme,large,picture" \
+-Dorg.dschroeer.audio_command="cvlc,--play-and-exit" \
 -jar avshow-$version.jar
 ```
 
