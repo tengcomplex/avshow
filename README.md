@@ -11,7 +11,7 @@ The algorithm works as following:
     * b) meta data
 * 3) Grep an audio file with the pattern of extracted picture tokens
     * If there are no matches, take a random audio file from audio folder
-    * If there are multiple matches take a random audio file from the matches
+    * If there are multiple matches, take a random audio file from the matches
 
 Avshow is written in Java and is due to its dependencies designed to run on linux.
 
@@ -21,9 +21,11 @@ GPL v3 Copyright (C) 2019  David Schröer <tengcomplexATgmail.com>
 # Dependencies
 Must be installed:
 * Java JRE 8 or higher
+* [find](https://www.gnu.org/software/findutils/)
 * [grep](https://www.gnu.org/software/grep/)
 * [shuf](https://www.gnu.org/software/coreutils/)
 * [ls](https://www.gnu.org/software/coreutils/)
+* A media player capable of playing audio files, e.g. vlc or mplayer.
 
 Included:
 * [Apache Commons IO](https://github.com/apache/commons-io)
