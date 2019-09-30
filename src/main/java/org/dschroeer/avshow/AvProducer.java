@@ -164,7 +164,7 @@ public class AvProducer implements Runnable {
     return line;
   }
 
-  static String getFirstLine(String[] cmd) throws IOException, InterruptedException {
+  private String getFirstLine(String[] cmd) throws IOException, InterruptedException {
     Process p = Runtime.getRuntime().exec(cmd);
     p.waitFor();
     try (BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
