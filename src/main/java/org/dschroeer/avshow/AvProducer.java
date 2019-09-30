@@ -90,7 +90,7 @@ public class AvProducer implements Runnable {
   }
 
   private String getRandomPicturePath() throws Exception {
-    return getFirstLine(new String[] { "/bin/sh", "-c", "ls " + Config.PICTURE_FOLDER + "/*.* | shuf -n1" });
+    return getFirstLine(RuntimeCommand.getFindPictureCommand());
   }
 
   private Map<String, String> getMetaTagMap(File file)
@@ -152,14 +152,10 @@ public class AvProducer implements Runnable {
     L.info(file.getName() + ", pattern: " + pattern);
 
     String line;
-    String[] cmd = { "/bin/sh", "-c",
-        "find " + Config.AUDIO_FOLDER + "/ -type f " + Config.AUDIO_TYPES + " -regextype posix-egrep -iregex \".*(" + pattern + ").*\" | shuf -n1" };
-    line = getFirstLine(cmd);
-
+    line = getFirstLine(RuntimeCommand.getFindAudioCommand(pattern));
     if (line == null) {
       L.info("no audio track found, pick random");
-      cmd = new String[] { "/bin/sh", "-c", "find " + Config.AUDIO_FOLDER + "/ -type f " + Config.AUDIO_TYPES + " | shuf -n1" };
-      line = getFirstLine(cmd);
+      line = getFirstLine(RuntimeCommand.getFindAudioCommand(null));
     }
     return line;
   }
