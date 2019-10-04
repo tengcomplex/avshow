@@ -4,7 +4,7 @@
 
   <groupId>org.dschroeer</groupId>
   <artifactId>avshow</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
   <packaging>jar</packaging>
 
   <name>avshow</name>
