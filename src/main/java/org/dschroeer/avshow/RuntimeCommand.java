@@ -2,9 +2,9 @@ package org.dschroeer.avshow;
 
 public class RuntimeCommand {
   private static final String BASE_FIND_AUDIO_COMMAND = "find " + Config.AUDIO_FOLDER + "/ -type f " + Config.AUDIO_TYPES;
-  private static final String SHUFFLE_COMMAND = " shuf -n1";
+  private static final String SHUFFLE_COMMAND = "shuf -n1";
 
-  private static final String[] shellCommand = {"/bin/sh", "-c", null};
+  private static final String[] shellCommand = { "/bin/sh", "-c", null };
   /**
    * Elements of {@link Config#AUDIO_COMMAND} plus one, where we put the audio path.
    */
