@@ -69,7 +69,7 @@ public class AvConsumer implements Runnable {
         currentAudioProcess = Runtime.getRuntime().exec(RuntimeCommand.getPlayAudioCommand(task.getAudioPath()));
         int exitCode = currentAudioProcess.waitFor();
         L.info("exit code: " + exitCode);
-      } catch (IOException | InterruptedException | IllegalArgumentException e) {
+      } catch (IOException | InterruptedException | IllegalArgumentException | NullPointerException e) {
         L.log(Level.WARNING, "Exception ", e);
       }
     }

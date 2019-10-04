@@ -181,7 +181,7 @@ public class Gui {
     stage.setFileNames(audioTrackName, pictureName);
   }
 
-  public void setPicture(String picturePath) throws IOException, IllegalArgumentException {
+  public void setPicture(String picturePath) throws IOException, IllegalArgumentException, NullPointerException {
     L.info("Picture " + picturePath + " loading...");
     BufferedImage image = ImageIO.read(new File(picturePath));
     L.info("Picture " + picturePath + " loaded");
