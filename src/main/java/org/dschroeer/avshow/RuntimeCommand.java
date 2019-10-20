@@ -1,5 +1,9 @@
 package org.dschroeer.avshow;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class RuntimeCommand {
   private static final String BASE_FIND_AUDIO_COMMAND = "find " + Config.AUDIO_FOLDER + "/ -type f " + Config.AUDIO_TYPES;
   private static final String SHUFFLE_COMMAND = "shuf -n1";
@@ -34,5 +38,17 @@ public class RuntimeCommand {
 
   static String[] getPlayAudioCommand(String audioPath) {
     return getEnrichedCommand(playAudioCommand, audioPath);
+  }
+
+  static String getFirstLineFromProcess(String[] cmd) throws IOException, InterruptedException {
+    Process p = Runtime.getRuntime().exec(cmd);
+    p.waitFor();
+    try (BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
+      String line;
+      if ((line = in.readLine()) != null) {
+        return line;
+      }
+    }
+    return null;
   }
 }

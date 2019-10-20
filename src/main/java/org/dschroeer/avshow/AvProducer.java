@@ -22,12 +22,10 @@
 
 package org.dschroeer.avshow;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -90,7 +88,7 @@ public class AvProducer implements Runnable {
   }
 
   private String getRandomPicturePath() throws Exception {
-    return getFirstLine(RuntimeCommand.getFindPictureCommand());
+    return RuntimeCommand.getFirstLineFromProcess(RuntimeCommand.getFindPictureCommand());
   }
 
   private Map<String, String> getMetaTagMap(File file)
@@ -152,24 +150,12 @@ public class AvProducer implements Runnable {
     L.info(file.getName() + ", pattern: " + pattern);
 
     String line;
-    line = getFirstLine(RuntimeCommand.getFindAudioCommand(pattern));
+    line = RuntimeCommand.getFirstLineFromProcess(RuntimeCommand.getFindAudioCommand(pattern));
     if (line == null) {
       L.info("No audio track found, pick random");
-      line = getFirstLine(RuntimeCommand.getFindAudioCommand(null));
+      line = RuntimeCommand.getFirstLineFromProcess(RuntimeCommand.getFindAudioCommand(null));
     }
     return line;
-  }
-
-  private String getFirstLine(String[] cmd) throws IOException, InterruptedException {
-    Process p = Runtime.getRuntime().exec(cmd);
-    p.waitFor();
-    try (BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
-      String line;
-      if ((line = in.readLine()) != null) {
-        return line;
-      }
-    }
-    return null;
   }
 
 }
