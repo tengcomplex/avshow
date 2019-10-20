@@ -154,7 +154,7 @@ public class AvProducer implements Runnable {
     String line;
     line = getFirstLine(RuntimeCommand.getFindAudioCommand(pattern));
     if (line == null) {
-      L.info("no audio track found, pick random");
+      L.info("No audio track found, pick random");
       line = getFirstLine(RuntimeCommand.getFindAudioCommand(null));
     }
     return line;
