@@ -32,6 +32,15 @@ public class Main {
     AvProducer producer = new AvProducer(cache);
     AvConsumer consumer = new AvConsumer(cache, gui, producer);
     producer.setConsumer(consumer);
+    switch (Config.TASK_PRODUCER_MODE) {
+    case DEFAULT:
+      producer.setTaskProducer(new AvTaskDefaultProducer());
+      break;
+    case SERVICE_LOCAL:
+    case SERVICE_NETWORK:
+    default:
+      throw new IllegalArgumentException("Unsupported mode " + Config.TASK_PRODUCER_MODE);
+    }
     gui.setConsumer(consumer);
     new Thread(producer).start();
     new Thread(consumer).start();

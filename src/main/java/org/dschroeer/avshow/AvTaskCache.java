@@ -73,7 +73,7 @@ public class AvTaskCache {
 
   public void add(AvTask task) {
     queue.add(task);
-    L.info("task: " + task + ", new cache size: " + queue.size());
+    L.info("AvTask:" + task + ", new cache size:" + queue.size());
   }
 
   public void cleanup() {

@@ -24,14 +24,13 @@ package org.dschroeer.avshow;
 
 import static org.junit.Assert.assertEquals;
 
-import org.dschroeer.avshow.AvProducer;
 import org.junit.Test;
 
 public class CleanStringTest {
 
   @Test
   public void test() {
-    AvProducer avProducer = new AvProducer(null);
+    AvTaskDefaultProducer avProducer = new AvTaskDefaultProducer();
     String[] dirtyElementsRemoved = {"test()", "©test", "test\"", "test()()©"};
     String[] dirtyElementsReplaced = {"test;", "test-", "test.", "test,", "test "};
 
