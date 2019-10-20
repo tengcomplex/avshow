@@ -60,6 +60,17 @@ public class AvProducer implements Runnable {
     }
   }
 
-
+  static AvTaskProducer createTaskPruducer() {
+    switch (Config.TASK_PRODUCER_MODE) {
+    case DEFAULT:
+      return new AvTaskDefaultProducer();
+    case SERVICE_NETWORK:
+      return new AvTaskNetworkProducer();
+    case SERVICE_LOCAL:
+      return new AvTaskLocalProducer();
+    default:
+      throw new IllegalArgumentException("Unsupported mode " + Config.TASK_PRODUCER_MODE);
+    }
+  }
 
 }
