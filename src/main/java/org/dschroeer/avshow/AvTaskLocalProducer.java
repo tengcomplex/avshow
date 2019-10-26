@@ -12,7 +12,7 @@ public class AvTaskLocalProducer implements AvTaskProducer {
   @Override
   public AvTask next() {
     try {
-      String task = RuntimeCommand.getFirstLineFromProcess(new String[] {"bash", "/home/teng/projects/avshow/producer/producer.bsh"});
+      String task = RuntimeCommand.getFirstLineFromProcess(Config.LOCAL_PRODUCER_COMMAND);
 System.out.println("AvTaskLocalProducer.next(), task:" + task);
       ObjectMapper objectMapper = new ObjectMapper();
       AvTask avTask = objectMapper.readValue(task, AvTask.class);

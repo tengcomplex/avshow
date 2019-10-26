@@ -1,0 +1,15 @@
+#!/bin/bash
+
+function printTask {
+  echo '{ "picturePath":["'$1'", "'$2'"], "audioPath":"'$3'" }'
+}
+
+function getPicture {
+  echo $(ls /home/teng/data/pics/*.* | shuf -n1)
+}
+
+function getAudio {
+  echo $(find /media/veracrypt1/audio/ -type f \( -iname *.flac -o -iname *.mp3 -o -iname *.ogg -o -iname *.ape \) | shuf -n1)
+}
+
+printTask $(getPicture) $(getPicture) "$(getAudio)"

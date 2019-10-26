@@ -36,6 +36,7 @@ public class Config {
   static public final int DISPLAY_POSITION_Y = Integer.getInteger("org.dschroeer.display_position_y", 0).intValue();
   static public final int CACHE_SIZE = Integer.getInteger("org.dschroeer.cache_size", 5).intValue();
   static public final AvTaskProducerMode TASK_PRODUCER_MODE = AvTaskProducerMode.valueOf(System.getProperty("org.dschroeer.task_producer_mode", AvTaskProducerMode.DEFAULT.toString()));
+  static public final String[] LOCAL_PRODUCER_COMMAND = System.getProperty("org.dschroeer.local_producer_command", "").split(",");
   static public final String AUDIO_TYPES = System.getProperty("org.dschroeer.audio_types", "\\( -iname *.flac -o -iname *.mp3 -o -iname *.ogg -o -iname *.ape \\)");
   static public final String AUDIO_FOLDER = System.getProperty("org.dschroeer.audio_folder", "/tmp");
   static public final String PICTURE_FOLDER = System.getProperty("org.dschroeer.picture_folder", "/tmp");

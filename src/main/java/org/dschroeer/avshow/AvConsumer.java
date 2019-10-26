@@ -41,9 +41,10 @@ public class AvConsumer implements Runnable {
     this.producer = producer;
   }
 
+  private PictureConsumer pictureConsumer;
+
   @Override
   public void run() {
-
     while (true) {
       try {
         if (cache.isEmpty()) {
@@ -59,16 +60,43 @@ public class AvConsumer implements Runnable {
           producer.notify();
         }
         L.info("task: " + task);
-        gui.setPicture(task.getPicturePath(0));
-        gui.setFileNames(task.getAudioTrackNameWithoutLeadingFolder(), task.getPictureNameWithoutLeadingFolder(0));
+//        gui.setPicture(task.getPicturePath(0));
+//        gui.setFileNames(task.getAudioTrackNameWithoutLeadingFolder(), task.getPictureNameWithoutLeadingFolder(0));
+        pictureConsumer = new PictureConsumer(task);
         if (task.getAudioPath() == null) {
           return;
         }
+        pictureConsumer.start();
         currentAudioProcess = Runtime.getRuntime().exec(RuntimeCommand.getPlayAudioCommand(task.getAudioPath()));
         int exitCode = currentAudioProcess.waitFor();
         L.info("exit code: " + exitCode);
       } catch (IOException | InterruptedException | IllegalArgumentException | NullPointerException e) {
         L.log(Level.WARNING, "Exception ", e);
+      } finally {
+        pictureConsumer.interrupt();
+      }
+    }
+  }
+
+  class PictureConsumer extends Thread {
+    private AvTask avTask;
+
+    public PictureConsumer(AvTask avTask) {
+      this.avTask = avTask;
+    }
+
+    @Override
+    public void run() {
+      for (int ii = 0; ii < avTask.getPicturePath().length; ii++) {
+        try {
+          gui.setPicture(avTask.getPicturePath()[ii]);
+          gui.setFileNames(avTask.getAudioTrackNameWithoutLeadingFolder(),
+              avTask.getPictureNameWithoutLeadingFolder(ii));
+          Thread.sleep(30000);
+        } catch (IllegalArgumentException | NullPointerException | IOException | InterruptedException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
       }
     }
   }
