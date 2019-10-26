@@ -60,7 +60,7 @@ public class AvProducer implements Runnable {
     }
   }
 
-  static AvTaskProducer createTaskPruducer() {
+  static AvTaskProducer createTaskProducer() {
     switch (Config.TASK_PRODUCER_MODE) {
     case DEFAULT:
       return new AvTaskDefaultProducer();

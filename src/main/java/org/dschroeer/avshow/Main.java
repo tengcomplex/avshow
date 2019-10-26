@@ -32,7 +32,7 @@ public class Main {
     AvProducer producer = new AvProducer(cache);
     AvConsumer consumer = new AvConsumer(cache, gui, producer);
     producer.setConsumer(consumer);
-    producer.setTaskProducer(AvProducer.createTaskPruducer());
+    producer.setTaskProducer(AvProducer.createTaskProducer());
     gui.setConsumer(consumer);
     new Thread(producer).start();
     new Thread(consumer).start();

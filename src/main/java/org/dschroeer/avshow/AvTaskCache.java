@@ -29,38 +29,6 @@ public class AvTaskCache {
 
   static private final Logger L = Logger.getLogger(AvTaskCache.class.getName());
 
-  static class AvTask {
-    private final String picturePath;
-    private final String audioPath;
-
-    public AvTask(String picPath, String audioPath) {
-      super();
-      this.picturePath = picPath;
-      this.audioPath = audioPath;
-    }
-
-    public String getPicPath() {
-      return picturePath;
-    }
-
-    public String getPictureNameWithoutLeadingFolder() {
-      return picturePath.replaceFirst(Config.PICTURE_FOLDER, "");
-    }
-
-    public String getAudioPath() {
-      return audioPath;
-    }
-
-    public String getAudioTrackNameWithoutLeadingFolder() {
-      return audioPath != null ? audioPath.replaceFirst(Config.AUDIO_FOLDER, "") : "Error: null audio";
-    }
-
-    @Override
-    public String toString() {
-      return "AvTask [picture=" + picturePath + ", audio=" + audioPath + "]";
-    }
-  }
-
   private Queue<AvTask> queue = new ConcurrentLinkedQueue<>();
 
   public boolean isFull() {

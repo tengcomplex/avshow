@@ -26,8 +26,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.dschroeer.avshow.AvTaskCache.AvTask;
-
 public class AvConsumer implements Runnable {
   private static final Logger L = Logger.getLogger(AvConsumer.class.getName());
 
@@ -61,8 +59,8 @@ public class AvConsumer implements Runnable {
           producer.notify();
         }
         L.info("task: " + task);
-        gui.setPicture(task.getPicPath());
-        gui.setFileNames(task.getAudioTrackNameWithoutLeadingFolder(), task.getPictureNameWithoutLeadingFolder());
+        gui.setPicture(task.getPicturePath(0));
+        gui.setFileNames(task.getAudioTrackNameWithoutLeadingFolder(), task.getPictureNameWithoutLeadingFolder(0));
         if (task.getAudioPath() == null) {
           return;
         }
