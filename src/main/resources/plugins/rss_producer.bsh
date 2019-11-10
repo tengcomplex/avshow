@@ -1,0 +1,39 @@
+#!/bin/bash
+
+URL="http://192.168.2.100:8081/?channel=general&channel=jam&channel=dortmund&channel=news_de&channel=blogs_de&channel=sport_de&channel=news_il&channel=news_ar&channel=news_br&channel=news_au&channel=news_ru&channel=news_uk&channel=blogs_uk&channel=news_us&channel=blogs_us&channel=news_benelux&channel=news_at&channel=news_ch&channel=news_es&channel=news_jp&channel=news_fr&channel=misc&channel=cars&channel=movie&channel=technews&channel=software&channel=personaltrading&channel=trading&channel=test&numitems=10&cutoff=&refresh=&search_title=&uniquetitle=on&type=txt"
+
+function printTask {
+  echo '{ "picturePath":["'$1'", "'$2'", "'$3'"], "audioPath":"'$4'" }'
+}
+
+function getPicture {
+  echo $(ls /home/teng/data/pics/*.* | grep -E -i ".*("$1").*" | shuf -n1)
+}
+
+function getPattern {
+  tokens=$(wget -O - $URL 2>/dev/null | awk '
+  BEGIN {
+    FS="|" 
+  }
+  {
+    gsub(/^[ \t]+/,"",$2);
+    gsub(" ","|",$2)
+    print $2
+  }' | tr "\n" "|")
+  echo $tokens
+}
+
+function getAudio {
+  echo $(find /media/veracrypt1/audio/ -type f \( -iname *.flac -o -iname *.mp3 -o -iname *.ogg -o -iname *.ape \) | grep -E -i ".*("$1").*" | shuf -n1)
+}
+
+pattern=$(getPattern)
+#echo "pattern:"$pattern
+pic1=$(getPicture $pattern)
+pic2=$(getPicture $pattern)
+pic3=$(getPicture $pattern)
+audio=$(getAudio $pattern)
+
+#echo "pic1:"$pic1", pic2:"$pic2", pic3:"$pic3"; audio:"$audio
+printTask $pic1 $pic2 $pic3 "$audio"
+
