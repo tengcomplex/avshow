@@ -87,12 +87,13 @@ public class AvConsumer implements Runnable {
 
     @Override
     public void run() {
+      long sleeptime = 210000 / avTask.getPicturePath().length;
       for (int ii = 0; ii < avTask.getPicturePath().length; ii++) {
         try {
           gui.setPicture(avTask.getPicturePath()[ii]);
           gui.setFileNames(avTask.getAudioTrackNameWithoutLeadingFolder(),
               avTask.getPictureNameWithoutLeadingFolder(ii));
-          Thread.sleep(30000);
+          Thread.sleep(sleeptime);
         } catch (IllegalArgumentException | NullPointerException | IOException | InterruptedException e) {
           // TODO Auto-generated catch block
           e.printStackTrace();
