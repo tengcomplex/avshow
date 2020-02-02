@@ -95,7 +95,6 @@ public class AvConsumer implements Runnable {
               avTask.getPictureNameWithoutLeadingFolder(ii));
           Thread.sleep(sleeptime);
         } catch (IllegalArgumentException | NullPointerException | IOException | InterruptedException e) {
-          // TODO Auto-generated catch block
           e.printStackTrace();
         }
       }
