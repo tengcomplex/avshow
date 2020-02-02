@@ -1,12 +1,17 @@
 package org.dschroeer.avshow;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AvTaskLocalProducer implements AvTaskProducer {
   private static final Logger L = Logger.getLogger(AvTaskLocalProducer.class.getName());
+
+  public AvTaskLocalProducer() {
+    L.info("Using command " + Arrays.toString(Config.LOCAL_PRODUCER_COMMAND));
+  }
 
 
   @Override
