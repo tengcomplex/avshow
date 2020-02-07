@@ -94,8 +94,11 @@ public class AvConsumer implements Runnable {
           gui.setFileNames(avTask.getAudioTrackNameWithoutLeadingFolder(),
               avTask.getPictureNameWithoutLeadingFolder(ii));
           Thread.sleep(sleeptime);
-        } catch (IllegalArgumentException | NullPointerException | IOException | InterruptedException e) {
-          e.printStackTrace();
+        } catch (IllegalArgumentException | NullPointerException | IOException e) {
+          L.log(Level.WARNING, "Exception ", e);
+        } catch (InterruptedException e) {
+          L.info("interrupted");
+          return;
         }
       }
     }
@@ -107,5 +110,6 @@ public class AvConsumer implements Runnable {
     if (currentAudioProcess != null) {
       currentAudioProcess.destroy();
     }
+    pictureConsumer.interrupt();
   }
 }
