@@ -60,8 +60,6 @@ public class AvConsumer implements Runnable {
           producer.notify();
         }
         L.info("task: " + task);
-//        gui.setPicture(task.getPicturePath(0));
-//        gui.setFileNames(task.getAudioTrackNameWithoutLeadingFolder(), task.getPictureNameWithoutLeadingFolder(0));
         pictureConsumer = new PictureConsumer(task);
         if (task.getAudioPath() == null) {
           return;
