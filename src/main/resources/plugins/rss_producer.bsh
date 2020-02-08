@@ -13,19 +13,18 @@ function getPicture {
 function getPattern {
   tokens=$(wget -O - $URL 2>/dev/null | awk '
   BEGIN {
-    FS="|" 
+    FS="|"
   }
   {
-    gsub(/\.\.\./,"",$2)
-    gsub(/\,/,"",$2)
-    gsub(/\./,"",$2)
-    gsub(/\:/,"",$2)
-    gsub(/-/,"",$2)
-    gsub(/^[ \t]+/,"",$2);
-    gsub(" ","|",$2)
+    split($2, a, " ")
+    for (i in a) {
+      tok = a[i]
+      if (length(tok) > 4) {
+        gsub(/[\.,:"’‘?]/, "", tok)
+        print tok
+      }
+    }
   }' | tr "\n" "|")
-  tokens=${tokens/–/""}
-  tokens=${tokens/||/"|"}
   echo $tokens
 }
 
@@ -34,7 +33,7 @@ function getAudio {
 }
 
 function getAudioDuration {
-  length=$(mplayer -vo null -ao null -frames 0 -identify "$1" 2>/dev/null | grep ID_LENGTH | sed -e 's/ID_LENGTH=//g' | sed -e 's/\.[0-9][0-9]//g')
+  length=$(mplayer -vo null -ao null -frames 0 -identify "$1" 2>/dev/null | grep ID_LENGTH | sed -e 's/ID_LENGTH=//g' | sed -e 's/\.[0-9]\{2\}//g')
   echo $length
 }
 
