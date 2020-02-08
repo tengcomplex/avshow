@@ -1,9 +1,9 @@
 #!/bin/bash
 
-URL="http://192.168.2.100:8081/?channel=general&channel=jam&channel=dortmund&channel=news_de&channel=blogs_de&channel=sport_de&channel=news_il&channel=news_ar&channel=news_br&channel=news_au&channel=news_ru&channel=news_uk&channel=blogs_uk&channel=news_us&channel=blogs_us&channel=news_benelux&channel=news_at&channel=news_ch&channel=news_es&channel=news_jp&channel=news_fr&channel=misc&channel=cars&channel=movie&channel=technews&channel=software&channel=personaltrading&channel=trading&channel=test&numitems=10&cutoff=&refresh=&search_title=&uniquetitle=on&type=txt"
+URL="http://192.168.2.101:8081/?channel=general&channel=dortmund&channel=news_de&channel=blogs_de&channel=news_uk&channel=blogs_uk&channel=news_us&channel=blogs_us&channel=news_benelux&channel=news_at&channel=news_ch&channel=personaltrading&channel=trading&channel=test&numitems=10&cutoff=&refresh=&search_title=&uniquetitle=on&type=txt"
 
 function printTask {
-  echo '{ "picturePath":["'$1'", "'$2'", "'$3'"], "audioPath":"'$4'" }'
+  echo '{ "picturePath":["'$1'", "'$2'", "'$3'"], "audioPath":"'$4'", "audioDurationInSeconds":"'$5'" }'
 }
 
 function getPicture {
@@ -16,10 +16,16 @@ function getPattern {
     FS="|" 
   }
   {
+    gsub(/\.\.\./,"",$2)
+    gsub(/\,/,"",$2)
+    gsub(/\./,"",$2)
+    gsub(/\:/,"",$2)
+    gsub(/-/,"",$2)
     gsub(/^[ \t]+/,"",$2);
     gsub(" ","|",$2)
-    print $2
   }' | tr "\n" "|")
+  tokens=${tokens/–/""}
+  tokens=${tokens/||/"|"}
   echo $tokens
 }
 
@@ -27,13 +33,18 @@ function getAudio {
   echo $(find /media/veracrypt1/audio/ -type f \( -iname *.flac -o -iname *.mp3 -o -iname *.ogg -o -iname *.ape \) | grep -E -i ".*("$1").*" | shuf -n1)
 }
 
+function getAudioDuration {
+  length=$(mplayer -vo null -ao null -frames 0 -identify "$1" 2>/dev/null | grep ID_LENGTH | sed -e 's/ID_LENGTH=//g' | sed -e 's/\.[0-9][0-9]//g')
+  echo $length
+}
+
 pattern=$(getPattern)
-#echo "pattern:"$pattern
 pic1=$(getPicture $pattern)
 pic2=$(getPicture $pattern)
 pic3=$(getPicture $pattern)
 audio=$(getAudio $pattern)
+audioDuration=$(getAudioDuration "$audio")
 
-#echo "pic1:"$pic1", pic2:"$pic2", pic3:"$pic3"; audio:"$audio
-printTask $pic1 $pic2 $pic3 "$audio"
+#echo "pattern:"$pattern", pic1:"$pic1", pic2:"$pic2", pic3:"$pic3" audio:"$audio", audioDuration:"$audioDuration
+printTask $pic1 $pic2 $pic3 "$audio" $audioDuration
 
