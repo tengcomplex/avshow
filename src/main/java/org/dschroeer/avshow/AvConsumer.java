@@ -85,7 +85,7 @@ public class AvConsumer implements Runnable {
 
     @Override
     public void run() {
-      long sleeptime = 210000 / avTask.getPicturePath().length;
+      long sleeptime = (avTask.getAudioDurationInSeconds() * 1000) / avTask.getPicturePath().length;
       for (int ii = 0; ii < avTask.getPicturePath().length; ii++) {
         try {
           gui.setPicture(avTask.getPicturePath()[ii]);

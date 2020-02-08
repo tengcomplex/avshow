@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class AvTask {
   private String[] picturePath;
   private String audioPath;
+  private int audioDurationInSeconds;
 
   public AvTask() {
     super();
@@ -44,12 +45,21 @@ public class AvTask {
     return audioPath;
   }
 
+  public int getAudioDurationInSeconds() {
+    return audioDurationInSeconds;
+  }
+
+  public void setAudioDurationInSeconds(int audioDurationInSeconds) {
+    this.audioDurationInSeconds = audioDurationInSeconds;
+  }
+
   public String getAudioTrackNameWithoutLeadingFolder() {
     return audioPath != null ? audioPath.replaceFirst(Config.AUDIO_FOLDER, "") : "Error: null audio";
   }
 
   @Override
   public String toString() {
-    return "AvTask [picture=" + Arrays.toString(picturePath) + ", audio=" + audioPath + "]";
+    return "AvTask [picture=" + Arrays.toString(picturePath) + ", audio=" + audioPath
+        + ", audioDurationInSeconds=" + audioDurationInSeconds + "]";
   }
 }
