@@ -1,6 +1,6 @@
 #!/bin/bash
 
-URL="http://192.168.2.101:8081/?channel=general&channel=dortmund&channel=news_de&channel=blogs_de&channel=news_uk&channel=blogs_uk&channel=news_us&channel=blogs_us&channel=news_benelux&channel=news_at&channel=news_ch&channel=personaltrading&channel=trading&channel=test&numitems=10&cutoff=&refresh=&search_title=&uniquetitle=on&type=txt"
+URL="http://192.168.2.101:8081/?channel=general&channel=dortmund&channel=news_de&channel=blogs_de&channel=news_uk&channel=blogs_uk&channel=news_us&channel=blogs_us&channel=news_benelux&channel=news_at&channel=news_ch&channel=personaltrading&channel=trading&numitems=500&cutoff=&refresh=&search_title=&uniquetitle=on&type=txt"
 
 function printTask {
   echo '{ "picturePath":["'$1'", "'$2'", "'$3'"], "audioPath":"'$4'", "audioDurationInSeconds":"'$5'" }'
@@ -14,6 +14,7 @@ function getPattern {
   tokens=$(wget -O - $URL 2>/dev/null | awk '
   BEGIN {
     FS="|"
+    tokens["a"]=0
   }
   {
     split($2, a, " ")
@@ -21,10 +22,21 @@ function getPattern {
       tok = a[i]
       if (length(tok) > 4) {
         gsub(/[\.,:"’‘?]/, "", tok)
-        print tok
+        tokens[tok] = tokens[tok] + 1
+      }
+    }
+  }
+  END {
+    PROCINFO["sorted_in"] = "@val_num_desc"
+    count = 0
+    for (i in tokens) {
+      print i
+      if (++count >= 11) {
+        break
       }
     }
   }' | tr "\n" "|")
+  tokens=${tokens::-1}
   echo $tokens
 }
 
