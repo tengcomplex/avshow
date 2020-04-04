@@ -11,7 +11,7 @@ function getPicture {
 }
 
 function getPattern {
-  tokens=$(wget -O - $URL 2>/dev/null | awk '
+  tokens=$(wget --timeout=1 --tries=3 -O - $URL 2>/dev/null | awk '
   BEGIN {
     FS="|"
     tokens["a"]=0
