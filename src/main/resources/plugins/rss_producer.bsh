@@ -14,7 +14,9 @@ function getPattern {
   tokens=$(wget --timeout=1 --tries=3 -O - $URL 2>/dev/null | awk '
   BEGIN {
     FS="|"
-    tokens["a"]=0
+    tokens["a"] = 0
+    exclude = "about,after,from,wallpaper,wallpapers,theme,large,picture\
+      gegen,nicht,wegen,kommen,oder,fuer,ihre,sein,seine,dortmund,test"
   }
   {
     split($2, a, " ")
@@ -22,7 +24,10 @@ function getPattern {
       tok = a[i]
       if (length(tok) > 4) {
         gsub(/[\.,:"’‘?\[\]()]/, "", tok)
-        tokens[tok] = tokens[tok] + 1
+        tok = tolower(tok)
+        if (index(exclude, tok) == 0) {
+          tokens[tok] = tokens[tok] + 1
+        }
       }
     }
   }
