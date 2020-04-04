@@ -56,6 +56,6 @@ pic3=$(getPicture $pattern)
 audio=$(getAudio $pattern)
 audioDuration=$(getAudioDuration "$audio")
 
-echo "pattern:"$pattern", pic1:"$pic1", pic2:"$pic2", pic3:"$pic3" audio:"$audio", audioDuration:"$audioDuration
+#echo "pattern:"$pattern", pic1:"$pic1", pic2:"$pic2", pic3:"$pic3" audio:"$audio", audioDuration:"$audioDuration
 printTask $pic1 $pic2 $pic3 "$audio" $audioDuration
 
