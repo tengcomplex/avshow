@@ -21,7 +21,7 @@ function getPattern {
     for (i in a) {
       tok = a[i]
       if (length(tok) > 4) {
-        gsub(/[\.,:"’‘?]/, "", tok)
+        gsub(/[\.,:"’‘?\[\]]/, "", tok)
         tokens[tok] = tokens[tok] + 1
       }
     }
