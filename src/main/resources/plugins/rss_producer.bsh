@@ -1,6 +1,6 @@
 #!/bin/bash
-
-URL="http://192.168.2.101:8081/?channel=general&channel=dortmund&channel=news_de&channel=blogs_de&channel=news_uk&channel=blogs_uk&channel=news_us&channel=blogs_us&channel=news_benelux&channel=news_at&channel=news_ch&channel=personaltrading&channel=trading&numitems=500&cutoff=&refresh=&search_title=&uniquetitle=on&type=txt"
+NUMBER_OF_ITEMS="500"
+URL="http://192.168.2.101:8081/?channel=general&channel=dortmund&channel=news_de&channel=blogs_de&channel=news_uk&channel=blogs_uk&channel=news_us&channel=blogs_us&channel=news_benelux&channel=news_at&channel=news_ch&channel=personaltrading&channel=trading&numitems="$NUMBER_OF_ITEMS"&uniquetitle=on&type=txt"
 
 function printTask {
   echo '{ "picturePath":["'$1'", "'$2'", "'$3'"], "audioPath":"'$4'", "audioDurationInSeconds":"'$5'" }'
@@ -15,7 +15,7 @@ function getPattern {
   BEGIN {
     FS="|"
     tokens["a"] = 0
-    exclude = "about,after,from,wallpaper,wallpapers,theme,large,picture\
+    exclude = "about,after,during,from,wallpaper,wallpapers,theme,large,picture\
       gegen,nicht,wegen,kommen,oder,fuer,ihre,sein,seine,dortmund,test"
   }
   {
@@ -25,7 +25,7 @@ function getPattern {
       if (length(tok) > 4) {
         gsub(/[\.,:"’‘?\[\]()]/, "", tok)
         tok = tolower(tok)
-        if (index(exclude, tok) == 0) {
+        if (!index(exclude, tok)) {
           tokens[tok] = tokens[tok] + 1
         }
       }
