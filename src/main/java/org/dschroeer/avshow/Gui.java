@@ -1,6 +1,6 @@
 /*
  *  Avshow is a slideshow program.
- *  Copyright (C) 2019  David Schröer <tengcomplexATgmail.com>
+ *  Copyright (C) 2019-2020  David Schröer <tengcomplexATgmail.com>
  *
  *
  *  This file is part of Avshow.
