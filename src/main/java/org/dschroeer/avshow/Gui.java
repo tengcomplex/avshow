@@ -88,14 +88,41 @@ public class Gui {
 
   @SuppressWarnings("serial")
   class ImageAndTextComponent extends JComponent {
+    public static final long RUNNING_TIME = 1000;
 
-    private Image img;
     private String audioTrackName = "Initializing...";
     private String pictureName = "";
 
+    private float alpha = 0f;
+    private long startTime = -1;
+
+    private BufferedImage inImage;
+    private BufferedImage outImage;
+
     public void setImg(Image img) {
-      this.img = img;
-      repaint();
+      alpha = 0f;
+      Timer timer = new Timer(10, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          if (startTime < 0) {
+            startTime = System.currentTimeMillis();
+            outImage = (BufferedImage) img;
+          } else {
+            long time = System.currentTimeMillis();
+            long duration = time - startTime;
+            if (duration >= RUNNING_TIME) {
+              startTime = -1;
+              ((Timer) e.getSource()).stop();
+              inImage = outImage;
+              alpha = 0f;
+            } else {
+              alpha = 1f - ((float) duration / (float) RUNNING_TIME);
+            }
+            repaint();
+          }
+        }
+      });
+      timer.start();
     }
 
     public void setFileNames(String audioTrackName, String pictureName) {
@@ -109,22 +136,34 @@ public class Gui {
       super.paint(g);
       g.setColor(Color.BLACK);
       g.fillRect(0, 0, frame.getWidth(), frame.getHeight());
-      if (img != null) {
-        g.drawImage(img, (frame.getWidth() - img.getWidth(null)) / 2, (frame.getHeight() - img.getHeight(null)) / 2,
-            null);
-      }
-      g.setFont(font);
+
       Graphics2D g2d = (Graphics2D) g;
       if (desktopHints != null) {
         g2d.setRenderingHints(desktopHints);
       } else {
         g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
       }
+      int x;
+      int y;
+      if (inImage != null) {
+        g2d.setComposite(AlphaComposite.SrcOver.derive(alpha));
+        x = (getWidth() - inImage.getWidth()) / 2;
+        y = (getHeight() - inImage.getHeight()) / 2;
+        g2d.drawImage(inImage, x, y, this);
+      }
+      if (outImage != null) {
+        g2d.setComposite(AlphaComposite.SrcOver.derive(1f - alpha));
+        x = (getWidth() - outImage.getWidth()) / 2;
+        y = (getHeight() - outImage.getHeight()) / 2;
+        g2d.drawImage(outImage, x, y, this);
+      }
+      g.setFont(font);
       g.setColor(Color.WHITE);
       if(showFileNames) {
         g.drawString(audioTrackName, 45, 45);
         g.drawString(pictureName, 45, 60);
       }
+      g2d.dispose();
     }
   }
 
