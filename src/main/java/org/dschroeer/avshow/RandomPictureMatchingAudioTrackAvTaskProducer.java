@@ -23,8 +23,8 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 
-public class AvTaskDefaultProducer implements AvTaskProducer {
-  private static final Logger L = Logger.getLogger(AvTaskDefaultProducer.class.getName());
+public class RandomPictureMatchingAudioTrackAvTaskProducer implements AvTaskProducer {
+  private static final Logger L = Logger.getLogger(RandomPictureMatchingAudioTrackAvTaskProducer.class.getName());
 
   private static final String SEARCH_EXCLUDE_PATTERN_PICTURE_DIMENSION = "\\d{3,4}x\\d{3,4}";
   public static final String DEFAULT_SEARCH_EXCLUDE_WORDS = ""

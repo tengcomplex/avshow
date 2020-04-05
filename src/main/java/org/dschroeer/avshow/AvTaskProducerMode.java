@@ -1,6 +1,6 @@
 package org.dschroeer.avshow;
 
 public enum AvTaskProducerMode {
-  DEFAULT,
+  RANDOM_PICTURE_MATCHING_AUDIO_TRACK,
   SERVICE_LOCAL;
 }

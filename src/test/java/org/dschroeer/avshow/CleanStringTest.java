@@ -30,7 +30,7 @@ public class CleanStringTest {
 
   @Test
   public void test() {
-    AvTaskDefaultProducer avProducer = new AvTaskDefaultProducer();
+    RandomPictureMatchingAudioTrackAvTaskProducer avProducer = new RandomPictureMatchingAudioTrackAvTaskProducer();
     String[] dirtyElementsRemoved = {"test()", "©test", "test\"", "test()()©"};
     String[] dirtyElementsReplaced = {"test;", "test-", "test.", "test,", "test "};
 

@@ -62,10 +62,8 @@ public class AvProducer implements Runnable {
 
   static AvTaskProducer createTaskProducer() {
     switch (Config.TASK_PRODUCER_MODE) {
-    case DEFAULT:
-      return new AvTaskDefaultProducer();
-    case SERVICE_NETWORK:
-      return new AvTaskNetworkProducer();
+    case RANDOM_PICTURE_MATCHING_AUDIO_TRACK:
+      return new RandomPictureMatchingAudioTrackAvTaskProducer();
     case SERVICE_LOCAL:
       return new AvTaskLocalProducer();
     default:

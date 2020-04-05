@@ -4,7 +4,7 @@ The basic idea is to show a random picture for the time a matching audio file is
 
 A pool of pictures and audio files must be accessible.
 
-The default algorithm works as following:
+The default algorithm `RANDOM_PICTURE_MATCHING_AUDIO_TRACK` works as following:
 * 1) Pick a random picture
 * 2) Extract text tokens from
     * a) filename
@@ -13,10 +13,10 @@ The default algorithm works as following:
     * If there are no matches, take a random audio file from audio folder
     * If there are multiple matches, take a random audio file from the matches
 
-Alternatively it's possible to configure an external service for obtaining audio and picture tasks.
+Alternatively it's possible to configure an external service for obtaining audio and picture tasks by mode `SERVICE_LOCAL`.
 If configured, such a service can pass multiple pictures for one audio track.
 Depending on the length of the audio track the given pictures are shown for the according amount of time.
-Example, an external service returns:
+Example, an external service might return:
 
 ```
 { "picturePath":["/tmp/pics/pic1.jpg", "/tmp/pics/pic2.jpg"], "audioPath":"/tmp/audio/song.flac", "audioDurationInSeconds":"180" }
@@ -67,7 +67,7 @@ org.dschroeer.search_exclude_words     comma separated list of words,
                                        default the,and,from,wallpaper,wallpapers,theme,large,picture,img,dsc,
                                        der,die,das,des,und,oder,fuer,für,ist,auf,vor,bei,ihr,ihre,sein,seine
 org.dschroeer.audio_command            comma separated audio command tokens, default cvlc,--play-and-exit
-org.dschroeer.task_producer_mode       possible values DEFAULT, SERVICE_LOCAL, default DEFAULT
+org.dschroeer.task_producer_mode       possible values RANDOM_PICTURE_MATCHING_AUDIO_TRACK, SERVICE_LOCAL, default RANDOM_PICTURE_MATCHING_AUDIO_TRACK
 org.dschroeer.local_producer_command   external service for obtaining task data, used in task_producer_mode SERVICE_LOCAL
 ```
 
