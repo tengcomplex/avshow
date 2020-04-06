@@ -60,8 +60,8 @@ import javax.swing.WindowConstants;
 public class Gui {
   static private final Logger L = Logger.getLogger(Gui.class.getName());
 
-  private ImageAndTextComponent stage;
-  private JFrame frame;
+  private final ImageAndTextComponent stage;
+  private final JFrame frame;
   private AvConsumer consumer;
   private final Font font = new Font("Dialog", Font.PLAIN, 16);
   private final Map<?, ?> desktopHints = (Map<?, ?>) Toolkit.getDefaultToolkit()
