@@ -180,6 +180,7 @@ public class Gui {
         g2d.drawImage(outImage, x, y, this);
       }
 
+      g2d.setComposite(AlphaComposite.SrcOver.derive(1f));
       g.setFont(font);
       g.setColor(Color.WHITE);
       if (showFileNames) {
