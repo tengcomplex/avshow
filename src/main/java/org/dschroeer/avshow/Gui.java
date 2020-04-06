@@ -58,7 +58,6 @@ import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
 public class Gui {
-
   static private final Logger L = Logger.getLogger(Gui.class.getName());
 
   private ImageAndTextComponent stage;
@@ -77,10 +76,10 @@ public class Gui {
       cursorImg, new Point(0, 0), "blank cursor");
 
   private final ActionListener mouseDisappearer = new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-          frame.setCursor(blankCursor);
-      }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      frame.setCursor(blankCursor);
+    }
   };
 
   // Make mouse cursor disappear after 3 seconds
@@ -88,7 +87,7 @@ public class Gui {
 
   @SuppressWarnings("serial")
   class ImageAndTextComponent extends JComponent {
-    public static final long RUNNING_TIME = 1000;
+    public static final long RUNNING_TIME = 500;
 
     private String audioTrackName = "Initializing...";
     private String pictureName = "";
@@ -157,9 +156,10 @@ public class Gui {
         y = (getHeight() - outImage.getHeight()) / 2;
         g2d.drawImage(outImage, x, y, this);
       }
+
       g.setFont(font);
       g.setColor(Color.WHITE);
-      if(showFileNames) {
+      if (showFileNames) {
         g.drawString(audioTrackName, 45, 45);
         g.drawString(pictureName, 45, 60);
       }
