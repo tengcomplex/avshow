@@ -60,37 +60,65 @@ import javax.swing.WindowConstants;
 public class Gui {
   static private final Logger L = Logger.getLogger(Gui.class.getName());
 
-  private final ImageAndTextComponent stage;
-  private final JFrame frame;
-  private AvConsumer consumer;
-  private final Font font = new Font("Dialog", Font.PLAIN, 16);
-  private final Map<?, ?> desktopHints = (Map<?, ?>) Toolkit.getDefaultToolkit()
-      .getDesktopProperty("awt.font.desktophints");
-  private boolean showFileNames = true;
-
-  // Transparent 16 x 16 pixel cursor image.
-  private final BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-
-  // Create a new blank cursor.
-  private final Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-      cursorImg, new Point(0, 0), "blank cursor");
-
-  private final ActionListener mouseDisappearer = new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-      frame.setCursor(blankCursor);
-    }
-  };
-
-  // Make mouse cursor disappear after 3 seconds
-  private final Timer mouseTimer = new Timer(3000, mouseDisappearer);
+  public enum ImageChangeMode {
+    SIMPLE_CUT,
+    FADE;
+  }
 
   @SuppressWarnings("serial")
-  class ImageAndTextComponent extends JComponent {
-    public static final long RUNNING_TIME = 500;
+  abstract class ImageAndTextComponent extends JComponent {
+    protected String audioTrackName = "Initializing...";
+    protected String pictureName = "";
 
-    private String audioTrackName = "Initializing...";
-    private String pictureName = "";
+    public abstract void setImage(Image img);
+
+    public void setFileNames(String audioTrackName, String pictureName) {
+      this.audioTrackName = audioTrackName;
+      this.pictureName = pictureName;
+      repaint();
+    }
+  }
+
+  @SuppressWarnings("serial")
+  class SimpleCutImageComponent extends ImageAndTextComponent {
+    private BufferedImage image;
+
+    @Override
+    public void setImage(Image img) {
+      image = (BufferedImage) img;
+      repaint();
+    }
+
+    @Override
+    public void paint(Graphics g) {
+      super.paint(g);
+      g.setColor(Color.BLACK);
+      g.fillRect(0, 0, frame.getWidth(), frame.getHeight());
+
+      Graphics2D g2d = (Graphics2D) g;
+      if (desktopHints != null) {
+        g2d.setRenderingHints(desktopHints);
+      } else {
+        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+      }
+      if (image != null) {
+        int x = (getWidth() - image.getWidth()) / 2;
+        int y = (getHeight() - image.getHeight()) / 2;
+        g2d.drawImage(image, x, y, this);
+      }
+
+      g.setFont(font);
+      g.setColor(Color.WHITE);
+      if (showFileNames) {
+        g.drawString(audioTrackName, 45, 45);
+        g.drawString(pictureName, 45, 60);
+      }
+      g2d.dispose();
+    }
+  }
+
+  @SuppressWarnings("serial")
+  class FadeImageComponent extends ImageAndTextComponent {
 
     private float alpha = 0f;
     private long startTime = -1;
@@ -98,9 +126,10 @@ public class Gui {
     private BufferedImage inImage;
     private BufferedImage outImage;
 
-    public void setImg(Image img) {
+    @Override
+    public void setImage(Image img) {
       alpha = 0f;
-      Timer timer = new Timer(10, new ActionListener() {
+      Timer timer = new Timer(Config.IMAGE_FADE_REPAINT_INTERVAL, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
           if (startTime < 0) {
@@ -109,25 +138,19 @@ public class Gui {
           } else {
             long time = System.currentTimeMillis();
             long duration = time - startTime;
-            if (duration >= RUNNING_TIME) {
+            if (duration >= Config.IMAGE_FADE_RUNNING_TIME) {
               startTime = -1;
               ((Timer) e.getSource()).stop();
               inImage = outImage;
               alpha = 0f;
             } else {
-              alpha = 1f - ((float) duration / (float) RUNNING_TIME);
+              alpha = 1f - (duration / (float) Config.IMAGE_FADE_RUNNING_TIME);
             }
             repaint();
           }
         }
       });
       timer.start();
-    }
-
-    public void setFileNames(String audioTrackName, String pictureName) {
-      this.audioTrackName = audioTrackName;
-      this.pictureName = pictureName;
-      repaint();
     }
 
     @Override
@@ -167,12 +190,46 @@ public class Gui {
     }
   }
 
+  private final ImageAndTextComponent stage;
+  private final JFrame frame;
+  private AvConsumer consumer;
+  private final Font font = new Font("Dialog", Font.PLAIN, 16);
+  private final Map<?, ?> desktopHints = (Map<?, ?>) Toolkit.getDefaultToolkit()
+      .getDesktopProperty("awt.font.desktophints");
+  private boolean showFileNames = true;
+
+  // Transparent 16 x 16 pixel cursor image.
+  private final BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+
+  // Create a new blank cursor.
+  private final Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+      cursorImg, new Point(0, 0), "blank cursor");
+
+  private final ActionListener mouseDisappearer = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      frame.setCursor(blankCursor);
+    }
+  };
+
+  // Make mouse cursor disappear after 3 seconds
+  private final Timer mouseTimer = new Timer(3000, mouseDisappearer);
+
   public Gui() {
     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     GraphicsDevice[] gs = ge.getScreenDevices();
     frame = new JFrame(gs[Config.DISPLAY_NUMBER].getDefaultConfiguration());
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    stage = new ImageAndTextComponent();
+    switch (Config.IMAGE_CHANGE_MODE) {
+    case SIMPLE_CUT:
+      stage = new SimpleCutImageComponent();
+      break;
+    case FADE:
+      stage = new FadeImageComponent();
+      break;
+    default:
+      throw new IllegalArgumentException("Unsupported mode " + Config.IMAGE_CHANGE_MODE);
+    }
     frame.addKeyListener(new KeyAdapter() {
       @Override
       public void keyReleased(KeyEvent e) {
@@ -232,7 +289,7 @@ public class Gui {
     SwingUtilities.invokeLater(new Runnable() {
       @Override
       public void run() {
-        stage.setImg(imageIcon.getImage());
+        stage.setImage(imageIcon.getImage());
       }
     });
   }

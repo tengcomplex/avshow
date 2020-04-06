@@ -54,21 +54,24 @@ java [PROPERTIES] -jar avshow.jar
 
 ## Properties
 ```
-org.dschroeer.display_number           display number, default 0
-org.dschroeer.display_width            width in pixel, default max
-org.dschroeer.display_height           height in pixel, default max
-org.dschroeer.display_position_x       position horizontally, default 0
-org.dschroeer.display_position_y       position vertically, default 0
-org.dschroeer.audio_types              search pattern for types of audio files, 
-                                       default ( -iname *.flac -o -iname *.mp3 -o -iname *.ogg -o -iname *.ape )
-org.dschroeer.audio_folder             path of audio files, default /tmp
-org.dschroeer.picture_folder           path of picture files, default /tmp
-org.dschroeer.search_exclude_words     comma separated list of words,
-                                       default the,and,from,wallpaper,wallpapers,theme,large,picture,img,dsc,
-                                       der,die,das,des,und,oder,fuer,für,ist,auf,vor,bei,ihr,ihre,sein,seine
-org.dschroeer.audio_command            comma separated audio command tokens, default cvlc,--play-and-exit
-org.dschroeer.task_producer_mode       possible values RANDOM_PICTURE_MATCHING_AUDIO_TRACK, SERVICE_LOCAL, default RANDOM_PICTURE_MATCHING_AUDIO_TRACK
-org.dschroeer.local_producer_command   external service for obtaining task data, used in task_producer_mode SERVICE_LOCAL
+org.dschroeer.display_number               display number, default 0
+org.dschroeer.display_width                width in pixel, default max
+org.dschroeer.display_height               height in pixel, default max
+org.dschroeer.display_position_x           position horizontally, default 0
+org.dschroeer.display_position_y           position vertically, default 0
+org.dschroeer.audio_types                  search pattern for types of audio files, 
+                                           default ( -iname *.flac -o -iname *.mp3 -o -iname *.ogg -o -iname *.ape )
+org.dschroeer.audio_folder                 path of audio files, default /tmp
+org.dschroeer.picture_folder               path of picture files, default /tmp
+org.dschroeer.search_exclude_words         comma separated list of words,
+                                           default the,and,from,wallpaper,wallpapers,theme,large,picture,img,dsc,
+                                           der,die,das,des,und,oder,fuer,für,ist,auf,vor,bei,ihr,ihre,sein,seine
+org.dschroeer.audio_command                comma separated audio command tokens, default cvlc,--play-and-exit
+org.dschroeer.task_producer_mode           possible values RANDOM_PICTURE_MATCHING_AUDIO_TRACK, SERVICE_LOCAL, default RANDOM_PICTURE_MATCHING_AUDIO_TRACK
+org.dschroeer.local_producer_command       external service for obtaining task data, used in task_producer_mode SERVICE_LOCAL
+org.dschroeer.image_change_mode            possible values, SIMPLE_CUT, FADE, default SIMPLE_CUT
+org.dschroeer.image_fade_running_time      when in mode FADE, runtime of a picture fade in milliseconds, default 2500
+org.dschroeer.image_fade_repaint_interval  when in mode FADE, repaint interval in milliseconds, default, 20
 ```
 
 ## Example

@@ -28,6 +28,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.dschroeer.avshow.Gui.ImageChangeMode;
+
 public class Config {
   static public final int DISPLAY_NUMBER = Integer.getInteger("org.dschroeer.display_number", 0).intValue();
   static public final int DISPLAY_WIDTH = Integer.getInteger("org.dschroeer.display_width", -1).intValue();
@@ -36,6 +38,9 @@ public class Config {
   static public final int DISPLAY_POSITION_Y = Integer.getInteger("org.dschroeer.display_position_y", 0).intValue();
   static public final int CACHE_SIZE = Integer.getInteger("org.dschroeer.cache_size", 5).intValue();
   static public final AvTaskProducerMode TASK_PRODUCER_MODE = AvTaskProducerMode.valueOf(System.getProperty("org.dschroeer.task_producer_mode", AvTaskProducerMode.RANDOM_PICTURE_MATCHING_AUDIO_TRACK.toString()));
+  static public final ImageChangeMode IMAGE_CHANGE_MODE = ImageChangeMode.valueOf(System.getProperty("org.dschroeer.image_change_mode", ImageChangeMode.SIMPLE_CUT.toString()));
+  static public final long IMAGE_FADE_RUNNING_TIME = Long.getLong("org.dschroeer.image_fade_running_time", 500);
+  static public final int IMAGE_FADE_REPAINT_INTERVAL = Integer.getInteger("org.dschroeer.image_fade_repaint_interval", 10);
   static public final String[] LOCAL_PRODUCER_COMMAND = System.getProperty("org.dschroeer.local_producer_command", "").split(",");
   static public final String AUDIO_TYPES = System.getProperty("org.dschroeer.audio_types", "\\( -iname *.flac -o -iname *.mp3 -o -iname *.ogg -o -iname *.ape \\)");
   static public final String AUDIO_FOLDER = System.getProperty("org.dschroeer.audio_folder", "/tmp");
