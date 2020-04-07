@@ -225,7 +225,7 @@ public class Gui {
       stage = new FadeImageComponent();
       break;
     default:
-      throw new IllegalArgumentException("Unsupported mode " + Config.IMAGE_CHANGE_MODE);
+      throw new IllegalArgumentException("Unsupported image change mode " + Config.IMAGE_CHANGE_MODE);
     }
     frame.addKeyListener(new KeyAdapter() {
       @Override
