@@ -1,14 +1,11 @@
 #!/bin/bash
-NUMBER_OF_ITEMS="500"
-URL="http://192.168.2.101:8081/?channel=general&channel=dortmund&channel=news_de&channel=blogs_de&channel=news_uk&channel=blogs_uk&channel=news_us&channel=blogs_us&channel=news_benelux&channel=news_at&channel=news_ch&channel=personaltrading&channel=trading&numitems="$NUMBER_OF_ITEMS"&uniquetitle=on&type=txt"
+NUMBER_OF_RSS_ITEMS="500"
+URL="http://192.168.2.101:8081/?channel=general&channel=dortmund&channel=news_de&channel=blogs_de&channel=news_uk&channel=blogs_uk&channel=news_us&channel=blogs_us&channel=news_benelux&channel=news_at&channel=news_ch&channel=personaltrading&channel=trading&numitems="$NUMBER_OF_RSS_ITEMS"&uniquetitle=on&type=txt"
+SECONDS_PER_PICTURE="15"
+AUDIO_FOLDER="/media/veracrypt1/audio/"
+PICTURE_FOLDER="/home/teng/data/pics/"
 
-function printTask {
-  echo '{ "picturePath":["'$1'", "'$2'", "'$3'"], "audioPath":"'$4'", "audioDurationInSeconds":"'$5'" }'
-}
-
-function getPicture {
-  echo $(ls /home/teng/data/pics/*.* | grep -E -i ".*("$1").*" | shuf -n1)
-}
+# Here be dragons
 
 function getPattern {
   tokens=$(wget --timeout=1 --tries=3 -O - $URL 2>/dev/null | awk '
@@ -46,7 +43,7 @@ function getPattern {
 }
 
 function getAudio {
-  echo $(find /media/veracrypt1/audio/ -type f \( -iname *.flac -o -iname *.mp3 -o -iname *.ogg -o -iname *.ape \) | grep -E -i ".*("$1").*" | shuf -n1)
+  echo $(find $AUDIO_FOLDER -type f \( -iname *.flac -o -iname *.mp3 -o -iname *.ogg -o -iname *.ape \) | grep -E -i ".*("$1").*" | shuf -n1)
 }
 
 function getAudioDuration {
@@ -55,12 +52,18 @@ function getAudioDuration {
 }
 
 pattern=$(getPattern)
-pic1=$(getPicture $pattern)
-pic2=$(getPicture $pattern)
-pic3=$(getPicture $pattern)
 audio=$(getAudio $pattern)
 audioDuration=$(getAudioDuration "$audio")
+numPics=$((audioDuration / $SECONDS_PER_PICTURE))
 
-#echo "pattern:"$pattern", pic1:"$pic1", pic2:"$pic2", pic3:"$pic3" audio:"$audio", audioDuration:"$audioDuration
-printTask $pic1 $pic2 $pic3 "$audio" $audioDuration
+pics=$(ls $PICTURE_FOLDER*.* | grep -E -i ".*("$1").*" | shuf -n$numPics | awk '
+  {
+    printf "\"%s\"", $1
+    printf "%s", ","
+  }
+')
+pics=${pics::-1}
 
+# Finally, print JSON
+#echo "pattern:"$pattern", numPics:"$numPics", pics:"$pics", audio:"$audio", audioDuration:"$audioDuration
+echo '{ "picturePath":['$pics'], "audioPath":"'$audio'", "audioDurationInSeconds":"'$audioDuration'" }'
