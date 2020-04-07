@@ -119,7 +119,6 @@ public class Gui {
 
   @SuppressWarnings("serial")
   class FadeImageComponent extends ImageAndTextComponent {
-
     private float alpha = 0f;
     private long startTime = -1;
 
@@ -193,28 +192,25 @@ public class Gui {
 
   private final ImageAndTextComponent stage;
   private final JFrame frame;
-  private AvConsumer consumer;
   private final Font font = new Font("Dialog", Font.PLAIN, 16);
   private final Map<?, ?> desktopHints = (Map<?, ?>) Toolkit.getDefaultToolkit()
       .getDesktopProperty("awt.font.desktophints");
-  private boolean showFileNames = true;
-
-  // Transparent 16 x 16 pixel cursor image.
+  /** Transparent 16 x 16 pixel cursor image. */
   private final BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-
-  // Create a new blank cursor.
+  /** Create a new blank cursor. */
   private final Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
       cursorImg, new Point(0, 0), "blank cursor");
-
   private final ActionListener mouseDisappearer = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
       frame.setCursor(blankCursor);
     }
   };
-
-  // Make mouse cursor disappear after 3 seconds
+  /** Make mouse cursor disappear after 3 seconds. */
   private final Timer mouseTimer = new Timer(3000, mouseDisappearer);
+
+  private boolean showFileNames = true;
+  private AvConsumer consumer;
 
   public Gui() {
     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
