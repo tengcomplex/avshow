@@ -31,7 +31,7 @@ GPL v3 Copyright (C) 2019-2020  David Schröer <tengcomplexATgmail.com>
 
 # Dependencies
 Must be installed:
-* Java JRE 8 or higher
+* Java JRE 11 or higher
 * [find](https://www.gnu.org/software/findutils/)
 * [grep](https://www.gnu.org/software/grep/)
 * [shuf](https://www.gnu.org/software/coreutils/)
